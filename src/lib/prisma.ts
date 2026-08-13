@@ -1,4 +1,4 @@
-import { PrismaClient } from "../db/generated/client";
+import { PrismaClient } from "@/db/generated/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
 // 在node全局对象上挂载prisma属性
