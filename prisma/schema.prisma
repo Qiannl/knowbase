@@ -28,6 +28,7 @@ model User {
 model Document {
   id        String   @id @default(cuid())
   title     String
+  summary   String
   content   String   @default("")
   tags      String[] // PostgreSQL 的数组类型，存标签
   userId    String
