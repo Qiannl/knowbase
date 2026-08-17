@@ -17,7 +17,7 @@ model User {
   username  String     @unique
   email     String?    @unique
   nickname  String?
-  password  String
+  password  String     // 非明文密码，哈希
   role      String     @default("user") // user | admin
   bio       String?
   createdAt DateTime   @default(now())
