@@ -1,7 +1,5 @@
 import { auth } from "@/auth";
 
-export const runtime = "nodejs";
-
 export default auth((req) => {
   const isLogin = !!req.auth;
   const isLoginPage = req.nextUrl.pathname.startsWith("/login");

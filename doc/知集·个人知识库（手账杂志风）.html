@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>知集 · 你的知识宇宙</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=ZCOOL+KuaiLe&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --mint: #6bc5a8;
+    --mint-dark: #4aab8c;
+    --peach: #ff9a76;
+    --peach-dark: #f07d55;
+    --lemon: #ffd966;
+    --lavender: #b8a9e8;
+    --sky: #7fc8e8;
+    --pink: #f4a8c0;
+    --ink: #2c2c2c;
+    --ink-soft: #5a5a5a;
+    --ink-light: #999;
+    --paper: #fdfbf7;
+    --paper-warm: #f8f4ed;
+    --card: #ffffff;
+    --line: #e8e2d8;
+    --line-soft: #f0ebe2;
+    --danger: #e8736b;
+    --shadow-1: 0 2px 10px rgba(44,44,44,0.05);
+    --shadow-2: 0 6px 24px rgba(44,44,44,0.08);
+    --shadow-3: 0 12px 40px rgba(44,44,44,0.1);
+    --radius: 16px;
+    --radius-lg: 24px;
+  }
+
+  body {
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    height: 100vh;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(107,197,168,0.06) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(255,154,118,0.06) 0%, transparent 40%);
+  }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #ddd5c8; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #c9bfae; }
+
+  /* ========== 登录页 ========== */
+  #login-page {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f0faf5 0%, #fff5ee 50%, #fdfbf7 100%);
+  }
+  .bubble {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.5;
+    filter: blur(1px);
+  }
+  .bubble-1 { width: 200px; height: 200px; background: var(--mint); top: 8%; left: 10%; opacity: 0.15; animation: float 6s ease-in-out infinite; }
+  .bubble-2 { width: 140px; height: 140px; background: var(--peach); top: 20%; right: 15%; opacity: 0.18; animation: float 7s ease-in-out infinite reverse; }
+  .bubble-3 { width: 100px; height: 100px; background: var(--lemon); bottom: 15%; left: 20%; opacity: 0.25; animation: float 5s ease-in-out infinite; }
+  .bubble-4 { width: 80px; height: 80px; background: var(--lavender); bottom: 25%; right: 12%; opacity: 0.2; animation: float 8s ease-in-out infinite reverse; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+  }
+
+  .login-wrap {
+    display: flex;
+    width: 820px;
+    max-width: 92vw;
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-3);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .login-hero {
+    flex: 1;
+    background: linear-gradient(150deg, var(--mint) 0%, var(--mint-dark) 100%);
+    padding: 48px 40px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .login-hero::before {
+    content: '';
+    position: absolute;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    top: -60px; right: -60px;
+  }
+  .login-hero::after {
+    content: '';
+    position: absolute;
+    width: 120px; height: 120px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+    bottom: -30px; left: -30px;
+  }
+  .hero-logo { font-size: 48px; margin-bottom: 16px; position: relative; z-index: 1; }
+  .hero-title {
+    font-family: 'ZCOOL KuaiLe', cursive;
+    font-size: 42px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-slogan {
+    font-size: 14px;
+    opacity: 0.85;
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-features {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .hero-feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    opacity: 0.9;
+  }
+  .hero-feature .hf-icon {
+    width: 28px; height: 28px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+
+  .login-form-area {
+    flex: 1;
+    padding: 48px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .login-form-area h2 {
+    font-size: 26px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+  .login-form-area .form-sub {
+    color: var(--ink-soft);
+    font-size: 13px;
+    margin-bottom: 28px;
+  }
+  .form-group { margin-bottom: 18px; }
+  .form-group label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.25s;
+    background: var(--paper);
+    font-family: inherit;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--mint);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(107,197,168,0.12);
+  }
+  .btn {
+    padding: 11px 22px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.25s;
+    font-family: inherit;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--mint) 0%, var(--mint-dark) 100%);
+    color: white;
+    width: 100%;
+    padding: 13px;
+    font-size: 15px;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 16px rgba(107,197,168,0.35);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(107,197,168,0.4);
+  }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-secondary {
+    background: var(--paper-warm);
+    color: var(--ink);
+    border: 2px solid var(--line);
+  }
+  .btn-secondary:hover { background: #efe9de; }
+  .btn-danger { background: var(--danger); color: white; }
+  .btn-danger:hover { background: #d95f57; }
+  .btn-accent {
+    background: linear-gradient(135deg, var(--peach) 0%, var(--peach-dark) 100%);
+    color: white;
+    box-shadow: 0 4px 14px rgba(255,154,118,0.35);
+  }
+  .btn-accent:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,154,118,0.45); }
+
+  .login-tip {
+    margin-top: 20px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #fff9f0, #fff5e8);
+    border-radius: 12px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.8;
+    border-left: 3px solid var(--peach);
+  }
+  .login-tip strong { color: var(--peach-dark); }
+
+  /* ========== 主布局 ========== */
+  #app-page { display: none; height: 100vh; }
+  .layout { display: flex; height: 100vh; }
+
+  .sidebar {
+    width: 240px;
+    background: linear-gradient(180deg, #2a3a35 0%, #1c2824 100%);
+    color: #a8c0b6;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--mint), var(--peach), var(--lemon), var(--lavender));
+  }
+  .sidebar-header { padding: 28px 24px 20px; }
+  .sidebar-header .brand { display: flex; align-items: center; gap: 12px; }
+  .sidebar-header .brand-logo {
+    width: 42px; height: 42px;
+    background: linear-gradient(135deg, var(--mint), var(--peach));
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 12px rgba(107,197,168,0.3);
+  }
+  .sidebar-header .brand-name {
+    font-family: 'ZCOOL KuaiLe', cursive;
+    color: white;
+    font-size: 22px;
+  }
+  .sidebar-header .brand-tag {
+    color: rgba(255,255,255,0.35);
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-top: 2px;
+    margin-left: 54px;
+  }
+
+  .sidebar-nav { flex: 1; padding: 10px 14px; overflow-y: auto; }
+  .nav-section-title {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.25);
+    padding: 12px 12px 6px;
+    text-transform: uppercase;
+  }
+  .nav-item {
+    padding: 12px 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    transition: all 0.25s;
+    border-radius: 10px;
+    margin-bottom: 3px;
+    position: relative;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.06); color: white; }
+  .nav-item.active {
+    background: linear-gradient(135deg, rgba(107,197,168,0.2), rgba(107,197,168,0.08));
+    color: white;
+  }
+  .nav-item.active::after {
+    content: '';
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px; height: 6px;
+    background: var(--mint);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--mint);
+  }
+  .nav-item .icon {
+    width: 22px; text-align: center; font-size: 16px;
+    transition: transform 0.25s;
+  }
+  .nav-item:hover .icon { transform: scale(1.15); }
+
+  .sidebar-user {
+    margin: 10px 14px 16px;
+    padding: 14px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .sidebar-user:hover { background: rgba(255,255,255,0.08); }
+  .sidebar-user .su-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--peach), var(--lemon));
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 14px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .sidebar-user .su-info { flex: 1; min-width: 0; }
+  .sidebar-user .su-name {
+    color: white; font-size: 13px; font-weight: 600;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .sidebar-user .su-role { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+  .sidebar-user .su-logout {
+    color: rgba(255,255,255,0.3);
+    font-size: 16px;
+    padding: 6px;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  .sidebar-user .su-logout:hover { color: var(--danger); background: rgba(232,115,107,0.15); }
+
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  .topbar {
+    height: 64px;
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+  }
+  .topbar-title {
+    font-size: 14px;
+    color: var(--ink-light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .topbar-title .crumb-current { color: var(--ink); font-weight: 600; font-size: 15px; }
+  .topbar-title .crumb-sep { color: var(--ink-light); }
+  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  .topbar-deco { display: flex; gap: 6px; margin-right: 12px; }
+  .topbar-deco span { width: 10px; height: 10px; border-radius: 50%; }
+  .topbar-deco span:nth-child(1) { background: var(--peach); }
+  .topbar-deco span:nth-child(2) { background: var(--lemon); }
+  .topbar-deco span:nth-child(3) { background: var(--mint); }
+
+  .content { flex: 1; overflow-y: auto; padding: 32px; }
+  .page { display: none; animation: pageIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .page.active { display: block; }
+  @keyframes pageIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.99); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* ========== 页面标题栏 ========== */
+  .page-hero {
+    margin-bottom: 28px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .page-hero-left h1 {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .page-hero-left h1 .hero-emoji {
+    font-size: 28px;
+    display: inline-block;
+    animation: wiggle 3s ease-in-out infinite;
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-8deg); }
+    75% { transform: rotate(8deg); }
+  }
+  .page-hero-left .hero-desc { font-size: 14px; color: var(--ink-soft); }
+  .page-hero-right { display: flex; align-items: center; gap: 12px; }
+
+  .search-box { position: relative; width: 300px; }
+  .search-box input {
+    width: 100%;
+    padding: 11px 16px 11px 42px;
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    font-size: 14px;
+    outline: none;
+    background: var(--card);
+    transition: all 0.25s;
+    font-family: inherit;
+  }
+  .search-box input:focus { border-color: var(--mint); box-shadow: 0 0 0 4px rgba(107,197,168,0.12); }
+  .search-box .search-icon {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 15px;
+  }
+  .search-box .search-clear {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    cursor: pointer; font-size: 13px; display: none;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--paper-warm); text-align: center; line-height: 20px; color: var(--ink-soft);
+  }
+
+  /* ========== 文档卡片 - 便利贴风格 ========== */
+  .doc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 22px;
+  }
+  .doc-card {
+    border-radius: var(--radius);
+    padding: 22px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    border: 2px solid transparent;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+  }
+  .doc-card.color-0 { background: linear-gradient(135deg, #fff9e8, #fff3d4); border-color: #ffe8a8; }
+  .doc-card.color-1 { background: linear-gradient(135deg, #e8f8f0, #d8f2e4); border-color: #b8e8cc; }
+  .doc-card.color-2 { background: linear-gradient(135deg, #fff0e8, #ffe4d4); border-color: #ffc8a8; }
+  .doc-card.color-3 { background: linear-gradient(135deg, #f0e8ff, #e4d8f8); border-color: #c8b0f0; }
+
+  .doc-card::before {
+    content: '';
+    position: absolute;
+    top: -8px; left: 50%; transform: translateX(-50%) rotate(-2deg);
+    width: 60px; height: 20px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .doc-card:hover { transform: translateY(-5px) rotate(-0.5deg); box-shadow: var(--shadow-2); }
+  .doc-card:hover::before { opacity: 1; }
+  .doc-card .doc-title {
+    font-size: 17px; font-weight: 700; margin-bottom: 10px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    padding-right: 55px; color: var(--ink);
+  }
+  .doc-card .doc-excerpt {
+    font-size: 13px; color: var(--ink-soft); line-height: 1.65;
+    flex: 1; margin-bottom: 14px;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .doc-card .doc-tags { margin-bottom: 14px; min-height: 24px; }
+  .doc-card .doc-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; color: var(--ink-light);
+    padding-top: 12px; border-top: 1px dashed rgba(0,0,0,0.08);
+  }
+  .doc-card .doc-author { display: flex; align-items: center; gap: 6px; }
+  .doc-card .doc-author .author-dot {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: white; display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .doc-card .doc-actions {
+    position: absolute; top: 16px; right: 14px;
+    display: flex; gap: 4px; opacity: 0; transform: translateX(8px); transition: all 0.25s;
+  }
+  .doc-card:hover .doc-actions { opacity: 1; transform: translateX(0); }
+  .icon-btn {
+    width: 30px; height: 30px; border: none;
+    background: rgba(255,255,255,0.7); border-radius: 8px;
+    cursor: pointer; font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; backdrop-filter: blur(4px);
+  }
+  .icon-btn:hover { background: white; transform: scale(1.1); }
+  .icon-btn.danger:hover { background: #fde8e6; color: var(--danger); }
+
+  .tag {
+    display: inline-block; padding: 3px 11px;
+    background: rgba(255,255,255,0.6); border-radius: 20px;
+    font-size: 11px; margin-right: 5px; font-weight: 500;
+    color: var(--ink-soft); backdrop-filter: blur(4px);
+  }
+
+  .empty-state {
+    text-align: center; padding: 80px 20px; color: var(--ink-soft); grid-column: 1/-1;
+  }
+  .empty-state .icon {
+    font-size: 64px; margin-bottom: 16px; display: inline-block;
+    animation: float 4s ease-in-out infinite;
+  }
+  .empty-state p { font-size: 15px; margin-bottom: 20px; }
+
+  /* ========== 编辑器 ========== */
+  .editor-container {
+    background: var(--card); border-radius: var(--radius);
+    border: 2px solid var(--line); overflow: hidden; box-shadow: var(--shadow-1);
+  }
+  .editor-toolbar {
+    padding: 10px 18px; border-bottom: 2px solid var(--line);
+    display: flex; gap: 4px; flex-wrap: wrap;
+    background: var(--paper-warm); align-items: center;
+  }
+  .toolbar-btn {
+    padding: 7px 12px; border: 2px solid transparent; background: transparent;
+    border-radius: 8px; cursor: pointer; font-size: 13px;
+    color: var(--ink-soft); transition: all 0.2s;
+    font-family: inherit; font-weight: 500;
+  }
+  .toolbar-btn:hover { background: white; color: var(--ink); border-color: var(--line); }
+  .toolbar-sep { width: 2px; height: 20px; background: var(--line); margin: 0 6px; border-radius: 1px; }
+  .editor-title-input {
+    width: 100%; padding: 24px 28px 8px; border: none;
+    font-size: 28px; font-weight: 900; outline: none;
+    font-family: inherit; background: transparent; letter-spacing: -0.5px;
+  }
+  .editor-title-input::placeholder { color: #d0c8ba; }
+  .editor-meta {
+    padding: 8px 28px 16px; display: flex; gap: 12px;
+    align-items: center; font-size: 13px; color: var(--ink-soft);
+  }
+  .editor-meta input {
+    padding: 8px 14px; border: 2px solid var(--line); border-radius: 10px;
+    font-size: 13px; outline: none; flex: 1; max-width: 380px;
+    font-family: inherit; background: var(--paper);
+  }
+  .editor-meta input:focus { border-color: var(--mint); }
+  .editor-content {
+    min-height: 420px; padding: 20px 32px 32px; outline: none;
+    font-size: 15px; line-height: 1.85; color: var(--ink);
+  }
+  .editor-content:empty:before { content: attr(data-placeholder); color: #d0c8ba; }
+  .editor-content h1 { font-size: 24px; margin: 18px 0 10px; font-weight: 800; }
+  .editor-content h2 { font-size: 20px; margin: 16px 0 8px; font-weight: 700; }
+  .editor-content h3 { font-size: 17px; margin: 14px 0 6px; font-weight: 600; }
+  .editor-content p { margin: 10px 0; }
+  .editor-content ul, .editor-content ol { padding-left: 24px; margin: 10px 0; }
+  .editor-content li { margin: 5px 0; }
+  .editor-content blockquote {
+    border-left: 4px solid var(--mint); padding: 10px 18px;
+    color: var(--ink-soft); margin: 16px 0;
+    background: linear-gradient(90deg, rgba(107,197,168,0.08), transparent);
+    border-radius: 0 10px 10px 0; font-style: italic;
+  }
+  .editor-content code {
+    background: var(--paper-warm); padding: 2px 8px; border-radius: 6px;
+    font-family: 'SF Mono', Monaco, Consolas, monospace; font-size: 13px; color: var(--peach-dark);
+  }
+  .editor-content pre {
+    background: #2a3a35; color: #d4e4dc; padding: 18px 22px;
+    border-radius: 12px; overflow-x: auto; margin: 16px 0;
+  }
+  .editor-content pre code { background: none; color: inherit; padding: 0; }
+  .editor-actions {
+    padding: 16px 28px; border-top: 2px solid var(--line);
+    display: flex; justify-content: flex-end; gap: 10px; background: var(--paper-warm);
+  }
+
+  /* ========== 文档详情 ========== */
+  .doc-detail {
+    background: var(--card); border-radius: var(--radius);
+    border: 2px solid var(--line); padding: 44px 52px;
+    box-shadow: var(--shadow-1); max-width: 880px; margin: 0 auto; position: relative;
+  }
+  .doc-detail::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+    background: linear-gradient(90deg, var(--mint), var(--peach), var(--lemon));
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .doc-detail h1 { font-size: 32px; margin-bottom: 16px; font-weight: 900; line-height: 1.35; letter-spacing: -0.5px; }
+  .doc-detail .detail-meta {
+    color: var(--ink-soft); font-size: 13px; margin-bottom: 32px;
+    padding-bottom: 20px; border-bottom: 2px dashed var(--line);
+    display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+  }
+  .doc-detail .detail-body { line-height: 1.9; font-size: 15px; }
+  .doc-detail .detail-body h1, .doc-detail .detail-body h2, .doc-detail .detail-body h3 { margin: 22px 0 10px; font-weight: 700; }
+  .doc-detail .detail-body p { margin: 12px 0; }
+  .doc-detail .detail-body ul, .doc-detail .detail-body ol { padding-left: 24px; margin: 12px 0; }
+  .doc-detail .detail-body li { margin: 6px 0; }
+  .doc-detail .detail-body blockquote {
+    border-left: 4px solid var(--mint); padding: 12px 20px;
+    color: var(--ink-soft); margin: 18px 0;
+    background: linear-gradient(90deg, rgba(107,197,168,0.08), transparent);
+    border-radius: 0 10px 10px 0; font-style: italic;
+  }
+  .doc-detail .detail-body code {
+    background: var(--paper-warm); padding: 2px 8px; border-radius: 6px;
+    font-family: 'SF Mono', Monaco, Consolas, monospace; font-size: 13px; color: var(--peach-dark);
+  }
+  .doc-detail .detail-body pre {
+    background: #2a3a35; color: #d4e4dc; padding: 20px 24px;
+    border-radius: 12px; overflow-x: auto; margin: 18px 0;
+  }
+
+  /* ========== AI 对话 ========== */
+  .ai-container {
+    display: flex; flex-direction: column;
+    height: calc(100vh - 64px - 120px);
+    background: var(--card); border-radius: var(--radius);
+    border: 2px solid var(--line); overflow: hidden;
+    box-shadow: var(--shadow-1); max-width: 880px; margin: 0 auto;
+  }
+  .ai-header {
+    padding: 20px 26px; border-bottom: 2px solid var(--line);
+    display: flex; align-items: center; gap: 14px;
+    background: linear-gradient(135deg, rgba(184,169,232,0.12), rgba(107,197,168,0.12));
+  }
+  .ai-header .ai-icon {
+    width: 46px; height: 46px;
+    background: linear-gradient(135deg, var(--lavender), var(--mint));
+    border-radius: 14px; display: flex; align-items: center; justify-content: center;
+    font-size: 22px; box-shadow: 0 4px 14px rgba(184,169,232,0.3);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  .ai-header .ai-title { font-weight: 700; font-size: 16px; }
+  .ai-header .ai-desc { font-size: 12px; color: var(--ink-soft); margin-top: 2px; }
+  .ai-messages {
+    flex: 1; overflow-y: auto; padding: 26px;
+    display: flex; flex-direction: column; gap: 20px; background: var(--paper);
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(107,197,168,0.04) 0%, transparent 30%),
+      radial-gradient(circle at 80% 70%, rgba(255,154,118,0.04) 0%, transparent 30%);
+  }
+  .msg { display: flex; gap: 12px; max-width: 82%; }
+  .msg.user { align-self: flex-end; flex-direction: row-reverse; }
+  .msg-avatar {
+    width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 700; color: white;
+  }
+  .msg.user .msg-avatar { background: linear-gradient(135deg, var(--peach), var(--peach-dark)); }
+  .msg.ai .msg-avatar { background: linear-gradient(135deg, var(--lavender), var(--mint)); }
+  .msg-bubble { padding: 12px 18px; border-radius: 16px; font-size: 14px; line-height: 1.75; word-break: break-word; }
+  .msg.user .msg-bubble {
+    background: linear-gradient(135deg, var(--peach), var(--peach-dark));
+    color: white; border-top-right-radius: 4px; box-shadow: 0 3px 12px rgba(255,154,118,0.25);
+  }
+  .msg.ai .msg-bubble {
+    background: var(--card); border: 2px solid var(--line);
+    border-top-left-radius: 4px; box-shadow: var(--shadow-1);
+  }
+  .ai-input-area {
+    padding: 16px 22px; border-top: 2px solid var(--line);
+    display: flex; gap: 10px; background: var(--card);
+  }
+  .ai-input-area input {
+    flex: 1; padding: 13px 20px; border: 2px solid var(--line);
+    border-radius: 26px; font-size: 14px; outline: none;
+    transition: all 0.25s; font-family: inherit;
+  }
+  .ai-input-area input:focus { border-color: var(--mint); box-shadow: 0 0 0 4px rgba(107,197,168,0.12); }
+  .ai-send {
+    width: 46px; height: 46px; border-radius: 50%; border: none;
+    background: linear-gradient(135deg, var(--mint), var(--mint-dark));
+    color: white; cursor: pointer; font-size: 16px;
+    transition: all 0.25s; box-shadow: 0 4px 14px rgba(107,197,168,0.35);
+  }
+  .ai-send:hover { transform: scale(1.1) rotate(10deg); }
+  .ai-send:disabled { background: var(--ink-light); cursor: not-allowed; box-shadow: none; transform: none; }
+  .typing { display: inline-flex; gap: 4px; padding: 4px 0; }
+  .typing span { width: 8px; height: 8px; background: var(--mint); border-radius: 50%; animation: bounce 1.2s infinite; }
+  .typing span:nth-child(2) { animation-delay: 0.2s; background: var(--peach); }
+  .typing span:nth-child(3) { animation-delay: 0.4s; background: var(--lemon); }
+  @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); opacity: 0.5; } 30% { transform: translateY(-8px); opacity: 1; } }
+
+  /* ========== 个人设置 ========== */
+  .profile-card {
+    background: var(--card); border-radius: var(--radius);
+    border: 2px solid var(--line); padding: 36px 40px;
+    max-width: 660px; box-shadow: var(--shadow-1);
+    position: relative; overflow: hidden;
+  }
+  .profile-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+    background: linear-gradient(90deg, var(--mint), var(--peach), var(--lemon), var(--lavender));
+  }
+  .profile-header {
+    display: flex; align-items: center; gap: 22px;
+    margin-bottom: 30px; padding-bottom: 26px; border-bottom: 2px dashed var(--line);
+  }
+  .profile-avatar {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--mint), var(--peach));
+    color: white; display: flex; align-items: center; justify-content: center;
+    font-size: 32px; font-weight: 800; box-shadow: 0 6px 22px rgba(107,197,168,0.3);
+  }
+  .profile-info h2 { font-size: 22px; margin-bottom: 6px; font-weight: 800; }
+  .profile-info p { color: var(--ink-soft); font-size: 13px; }
+  .form-row { display: flex; gap: 16px; }
+  .form-row .form-group { flex: 1; }
+
+  /* ========== 用户管理 ========== */
+  .user-table {
+    background: var(--card); border-radius: var(--radius);
+    border: 2px solid var(--line); overflow: hidden; box-shadow: var(--shadow-1);
+  }
+  .user-table table { width: 100%; border-collapse: collapse; }
+  .user-table th {
+    text-align: left; padding: 16px 20px; background: var(--paper-warm);
+    font-size: 13px; font-weight: 700; color: var(--ink-soft); border-bottom: 2px solid var(--line);
+  }
+  .user-table td { padding: 15px 20px; font-size: 14px; border-bottom: 1px solid var(--line-soft); }
+  .user-table tr:last-child td { border-bottom: none; }
+  .user-table tr:hover { background: var(--paper); }
+  .user-table .user-cell { display: flex; align-items: center; gap: 12px; }
+  .user-table .user-cell .u-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: white;
+  }
+  .u-avatar.c0 { background: linear-gradient(135deg, var(--mint), var(--mint-dark)); }
+  .u-avatar.c1 { background: linear-gradient(135deg, var(--peach), var(--peach-dark)); }
+  .u-avatar.c2 { background: linear-gradient(135deg, var(--lavender), #9a88d8); }
+  .u-avatar.c3 { background: linear-gradient(135deg, var(--sky), #5fb0d4); }
+
+  /* ========== Toast ========== */
+  .toast {
+    position: fixed; top: 28px; right: 28px;
+    padding: 14px 24px; border-radius: 14px;
+    color: white; font-size: 14px; z-index: 9999;
+    animation: toastIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: var(--shadow-3); font-weight: 600;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .toast.success { background: linear-gradient(135deg, #5bc8a0, #3da882); }
+  .toast.error { background: linear-gradient(135deg, var(--danger), #d05a52); }
+  .toast.info { background: linear-gradient(135deg, var(--mint), var(--mint-dark)); }
+  @keyframes toastIn { from { transform: translateX(120%) scale(0.9); opacity: 0; } to { transform: translateX(0) scale(1); opacity: 1; } }
+
+  /* ========== Modal ========== */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(44,44,44,0.4); backdrop-filter: blur(6px);
+    z-index: 1000; align-items: center; justify-content: center;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: var(--card); border-radius: var(--radius);
+    width: 440px; max-width: 90vw; padding: 32px;
+    animation: modalIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: var(--shadow-3); position: relative; overflow: hidden;
+  }
+  .modal::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--mint), var(--peach));
+  }
+  @keyframes modalIn { from { transform: scale(0.9) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+  .modal h3 { margin-bottom: 22px; font-size: 20px; font-weight: 800; }
+  .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 26px; }
+
+  .role-badge { font-size: 11px; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
+  .role-admin { background: linear-gradient(135deg, var(--lemon), #f5c842); color: #8a6d00; }
+  .role-user { background: linear-gradient(135deg, rgba(107,197,168,0.15), rgba(107,197,168,0.08)); color: var(--mint-dark); }
+
+  @media (max-width: 768px) {
+    .login-hero { display: none; }
+    .sidebar { width: 70px; }
+    .sidebar-header .brand-name, .sidebar-header .brand-tag,
+    .nav-item span:not(.icon), .nav-section-title,
+    .sidebar-user .su-info { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="login-page">
+  <div class="bubble bubble-1"></div>
+  <div class="bubble bubble-2"></div>
+  <div class="bubble bubble-3"></div>
+  <div class="bubble bubble-4"></div>
+  <div class="login-wrap">
+    <div class="login-hero">
+      <div>
+        <div class="hero-logo">📚</div>
+        <div class="hero-title">知集</div>
+        <div class="hero-slogan">你的私人知识宇宙<br>记录、整理、发现，让每一点思考都有迹可循</div>
+      </div>
+      <div class="hero-features">
+        <div class="hero-feature"><span class="hf-icon">✍️</span> 富文本编辑，随手记录</div>
+        <div class="hero-feature"><span class="hf-icon">🔍</span> 全文搜索，秒速定位</div>
+        <div class="hero-feature"><span class="hf-icon">✨</span> AI 助手，智能问答</div>
+      </div>
+    </div>
+    <div class="login-form-area">
+      <h2>欢迎回来 👋</h2>
+      <p class="form-sub">登录你的账户，继续知识之旅</p>
+      <div class="form-group">
+        <label>用户名</label>
+        <input type="text" id="login-username" placeholder="请输入用户名" value="admin">
+      </div>
+      <div class="form-group">
+        <label>密码</label>
+        <input type="password" id="login-password" placeholder="请输入密码" value="123456">
+      </div>
+      <button class="btn btn-primary" onclick="doLogin()">登 录</button>
+      <div class="login-tip">
+        <strong>🎯 演示账号</strong><br>
+        管理员：admin / 123456 — 可管理所有文档和用户<br>
+        普通用户：user / 123456 — 仅管理自己的文档
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="app-page">
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="brand-logo">📚</div>
+          <div><div class="brand-name">知集</div></div>
+        </div>
+        <div class="brand-tag">KNOWLEDGE</div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">内容</div>
+        <div class="nav-item active" data-page="docs" onclick="switchPage('docs')">
+          <span class="icon">📄</span> <span>我的文档</span>
+        </div>
+        <div class="nav-item" data-page="ai" onclick="switchPage('ai')">
+          <span class="icon">✨</span> <span>AI 助手</span>
+        </div>
+        <div class="nav-section-title admin-only" style="display:none;">管理</div>
+        <div class="nav-item admin-only" data-page="users" onclick="switchPage('users')" style="display:none;">
+          <span class="icon">👥</span> <span>用户管理</span>
+        </div>
+        <div class="nav-section-title">账户</div>
+        <div class="nav-item" data-page="profile" onclick="switchPage('profile')">
+          <span class="icon">⚙️</span> <span>个人设置</span>
+        </div>
+      </nav>
+      <div class="sidebar-user" onclick="switchPage('profile')">
+        <div class="su-avatar" id="sidebar-avatar">A</div>
+        <div class="su-info">
+          <div class="su-name" id="sidebar-name">admin</div>
+          <div class="su-role" id="sidebar-role">管理员</div>
+        </div>
+        <div class="su-logout" onclick="event.stopPropagation();logout()" title="退出登录">⏻</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="topbar-title" id="topbar-title">
+          <span>知集</span>
+          <span class="crumb-sep">/</span>
+          <span class="crumb-current">我的文档</span>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-deco"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="page active" id="page-docs">
+          <div class="page-hero">
+            <div class="page-hero-left">
+              <h1><span class="hero-emoji">📒</span> <span id="docs-title">我的文档</span></h1>
+              <div class="hero-desc" id="docs-sub">共 0 篇文档</div>
+            </div>
+            <div class="page-hero-right">
+              <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="global-search" placeholder="搜索标题、内容、标签..." oninput="doSearch(this.value)">
+                <span class="search-clear" id="search-clear" onclick="clearSearch()">✕</span>
+              </div>
+              <button class="btn btn-accent" onclick="newDoc()">+ 新建文档</button>
+            </div>
+          </div>
+          <div id="doc-list" class="doc-grid"></div>
+        </div>
+
+        <div class="page" id="page-editor">
+          <div class="page-hero">
+            <div class="page-hero-left">
+              <h1><span class="hero-emoji">✏️</span> <span id="editor-page-title">新建文档</span></h1>
+              <div class="hero-desc">记录你的想法与知识</div>
+            </div>
+            <div class="page-hero-right">
+              <button class="btn btn-secondary" onclick="switchPage('docs')">← 返回列表</button>
+            </div>
+          </div>
+          <div class="editor-container">
+            <input type="text" class="editor-title-input" id="editor-title" placeholder="给这篇笔记起个名字...">
+            <div class="editor-meta">
+              <span>🏷️</span>
+              <input type="text" id="editor-tags" placeholder="标签，用逗号分隔，如：前端, React, 笔记">
+            </div>
+            <div class="editor-toolbar">
+              <button class="toolbar-btn" onclick="execCmd('bold')" title="加粗"><b>B</b></button>
+              <button class="toolbar-btn" onclick="execCmd('italic')" title="斜体"><i>I</i></button>
+              <button class="toolbar-btn" onclick="execCmd('underline')" title="下划线"><u>U</u></button>
+              <span class="toolbar-sep"></span>
+              <button class="toolbar-btn" onclick="execCmd('formatBlock','H1')">H1</button>
+              <button class="toolbar-btn" onclick="execCmd('formatBlock','H2')">H2</button>
+              <button class="toolbar-btn" onclick="execCmd('formatBlock','H3')">H3</button>
+              <span class="toolbar-sep"></span>
+              <button class="toolbar-btn" onclick="execCmd('insertUnorderedList')">• 列表</button>
+              <button class="toolbar-btn" onclick="execCmd('insertOrderedList')">1. 列表</button>
+              <button class="toolbar-btn" onclick="execCmd('formatBlock','BLOCKQUOTE')">❝ 引用</button>
+              <button class="toolbar-btn" onclick="insertCodeBlock(){'<>'} 代码</button>
+            </div>
+            <div class="editor-content" id="editor-content" contenteditable="true" data-placeholder="开始编写你的内容... 支持富文本格式"></div>
+            <div class="editor-actions">
+              <button class="btn btn-secondary" onclick="switchPage('docs')">取消</button>
+              <button class="btn btn-primary" onclick="saveDoc()">保存文档</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="page" id="page-detail">
+          <div class="page-hero">
+            <div class="page-hero-left">
+              <h1><span class="hero-emoji">📖</span> 文档详情</h1>
+              <div class="hero-desc">阅读与查看</div>
+            </div>
+            <div class="page-hero-right">
+              <button class="btn btn-secondary" onclick="switchPage('docs')">← 返回列表</button>
+              <button class="btn btn-accent" id="detail-edit-btn" onclick="editCurrentDoc()">✏️ 编辑</button>
+            </div>
+          </div>
+          <div class="doc-detail" id="doc-detail-content"></div>
+        </div>
+
+        <div class="page" id="page-ai">
+          <div class="page-hero">
+            <div class="page-hero-left">
+              <h1><span class="hero-emoji">🤖</span> AI 助手</h1>
+              <div class="hero-desc">智能问答 · 内容生成 · 知识总结</div>
+            </div>
+          </div>
+          <div class="ai-container">
+            <div class="ai-header">
+              <div class="ai-icon">✨</div>
+              <div>
+                <div class="ai-title">知集 AI 助手</div>
+                <div class="ai-desc">可以回答问题、总结文档、生成内容（演示模式）</div>
+              </div>
+            </div>
+            <div class="ai-messages" id="ai-messages">
+              <div class="msg ai">
+                <div class="msg-avatar">✨</div>
+                <div class="msg-bubble">你好！我是你的知集 AI 助手 👋<br><br>你可以问我任何问题，或者让我帮你总结、创作内容。<br><br>💡 试试这些：<br>• 帮我写一篇关于前端性能优化的笔记<br>• 总结一下 React Hooks 的要点<br>• 什么是闭包？<br>• 帮我总结我的知识库</div>
+              </div>
+            </div>
+            <div class="ai-input-area">
+              <input type="text" id="ai-input" placeholder="输入你的问题，回车发送..." onkeydown="if(event.key==='Enter')sendAiMessage()">
+              <button class="ai-send" id="ai-send-btn" onclick="sendAiMessage()">➤</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="page" id="page-profile">
+          <div class="page-hero">
+            <div class="page-hero-left">
+              <h1><span class="hero-emoji">⚙️</span> 个人设置</h1>
+              <div class="hero-desc">管理你的账户信息</div>
+            </div>
+          </div>
+          <div class="profile-card">
+            <div class="profile-header">
+              <div class="profile-avatar" id="profile-avatar">A</div>
+              <div class="profile-info">
+                <h2 id="profile-name-display">admin</h2>
+                <p><span class="role-badge role-admin" id="profile-role-display">管理员</span> · 加入于 2026-01-01</p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>用户名（不可修改）</label>
+              <input type="text" id="profile-username" disabled style="background:var(--paper-warm);color:var(--ink-light);">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>昵称</label>
+                <input type="text" id="profile-nickname" placeholder="请输入昵称">
+              </div>
+              <div class="form-group">
+                <label>邮箱</label>
+                <input type="email" id="profile-email" placeholder="请输入邮箱">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>新密码（留空则不修改）</label>
+                <input type="password" id="profile-password" placeholder="至少6位">
+              </div>
+              <div class="form-group">
+                <label>确认新密码</label>
+                <input type="password" id="profile-password2" placeholder="再次输入">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>个人简介</label>
+              <textarea id="profile-bio" rows="3" placeholder="介绍一下自己..."></textarea>
+            </div>
+            <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:4px;">
+              <button class="btn btn-secondary" onclick="switchPage('docs')">取消</button>
+              <button class="btn btn-primary" onclick="saveProfile()">保存修改</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="page" id="page-users">
+          <div class="page-hero">
+            <div class="page-hero-left">
+              <h1><span class="hero-emoji">👥</span> 用户管理</h1>
+              <div class="hero-desc">管理系统用户与权限</div>
+            </div>
+            <div class="page-hero-right">
+              <button class="btn btn-accent" onclick="showAddUserModal()">+ 添加用户</button>
+            </div>
+          </div>
+          <div class="user-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>用户</th>
+                  <th>邮箱</th>
+                  <th>角色</th>
+                  <th>文档数</th>
+                  <th>加入时间</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="user-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay" id="add-user-modal">
+  <div class="modal">
+    <h3>✨ 添加新用户</h3>
+    <div class="form-group">
+      <label>用户名</label>
+      <input type="text" id="new-user-username" placeholder="登录用户名">
+    </div>
+    <div class="form-group">
+      <label>昵称</label>
+      <input type="text" id="new-user-nickname" placeholder="显示昵称">
+    </div>
+    <div class="form-group">
+      <label>初始密码</label>
+      <input type="password" id="new-user-password" placeholder="至少6位">
+    </div>
+    <div class="form-group">
+      <label>角色</label>
+      <select id="new-user-role">
+        <option value="user">普通用户</option>
+        <option value="admin">管理员</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="hideAddUserModal()">取消</button>
+      <button class="btn btn-primary" onclick="addUser()">确认添加</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEYS = { USERS: 'kb_users_v3', DOCS: 'kb_docs_v3', CURRENT: 'kb_current_user_v3' };
+
+function initData() {
+  if (!localStorage.getItem(STORAGE_KEYS.USERS)) {
+    localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify([
+      { id: 1, username: 'admin', password: '123456', nickname: '管理员', email: 'admin@zhiji.com', role: 'admin', bio: '系统管理员，热爱知识管理', createdAt: '2026-01-01' },
+      { id: 2, username: 'user', password: '123456', nickname: '小林', email: 'xiaolin@zhiji.com', role: 'user', bio: '前端开发，热爱记录与分享', createdAt: '2026-02-15' }
+    ]));
+  }
+  if (!localStorage.getItem(STORAGE_KEYS.DOCS)) {
+    localStorage.setItem(STORAGE_KEYS.DOCS, JSON.stringify([
+      { id: 1, userId: 1, title: 'JavaScript 闭包详解',
+        content: '<h2>什么是闭包</h2><p>闭包是指有权访问另一个函数作用域中变量的函数。简单来说，就是一个函数能够"记住"并访问它被创建时的词法环境，即使这个函数在其词法作用域之外执行。</p><h3>典型示例</h3><pre><code>function counter() {\n  let count = 0;\n  return function() {\n    return ++count;\n  };\n}\nconst c = counter();\nc(); // 1\nc(); // 2</code></pre><h3>常见用途</h3><ul><li>创建私有变量，实现数据封装</li><li>函数柯里化</li><li>回调函数与事件处理</li></ul><blockquote>闭包是 JavaScript 中最强大的特性之一，但使用不当可能导致内存泄漏。</blockquote>',
+        tags: ['JavaScript', '前端', '基础'], createdAt: '2026-07-01', updatedAt: '2026-08-01' },
+      { id: 2, userId: 1, title: 'React Hooks 使用笔记',
+        content: '<h2>常用 Hooks 一览</h2><ul><li><b>useState</b>：在函数组件中管理状态</li><li><b>useEffect</b>：处理副作用（数据请求、订阅、DOM操作）</li><li><b>useContext</b>：跨层级共享数据，避免 props 层层传递</li><li><b>useMemo</b>：缓存计算结果，性能优化</li><li><b>useCallback</b>：缓存函数引用，避免子组件不必要的重渲染</li></ul><h2>使用规则</h2><ol><li>只能在函数组件或自定义 Hook 顶层调用</li><li>不能在条件、循环或嵌套函数中调用</li><li>Hook 调用顺序必须在每次渲染中保持一致</li></ol><blockquote>Hooks 让函数组件拥有了类组件的全部能力，是 React 现代开发的核心。</blockquote>',
+        tags: ['React', '前端', 'Hooks'], createdAt: '2026-07-15', updatedAt: '2026-08-05' },
+      { id: 3, userId: 2, title: '2026 年读书清单',
+        content: '<h2>技术书籍</h2><ol><li>《深入理解计算机系统》</li><li>《代码整洁之道》</li><li>《设计模式：可复用面向对象软件的基础》</li><li>《重构：改善既有代码的设计》</li><li>《JavaScript高级程序设计》</li></ol><h2>非技术书籍</h2><ul><li>《认知觉醒》</li><li>《原子习惯》</li><li>《被讨厌的勇气》</li></ul><p>目标：每月至少读完一本技术书籍，每季度读完一本非技术书籍。</p>',
+        tags: ['读书', '计划', '成长'], createdAt: '2026-06-01', updatedAt: '2026-07-20' },
+      { id: 4, userId: 1, title: 'CSS Flexbox 布局速查',
+        content: '<h2>容器属性</h2><ul><li><b>display: flex</b> — 启用弹性布局</li><li><b>flex-direction</b> — 主轴方向（row / column）</li><li><b>justify-content</b> — 主轴对齐方式</li><li><b>align-items</b> — 交叉轴对齐方式</li><li><b>flex-wrap</b> — 是否换行</li></ul><h2>子项属性</h2><ul><li><b>flex-grow</b> — 放大比例</li><li><b>flex-shrink</b> — 缩小比例</li><li><b>flex-basis</b> — 初始大小</li><li><b>align-self</b> — 单独对齐</li></ul>',
+        tags: ['CSS', '前端', '布局'], createdAt: '2026-07-20', updatedAt: '2026-07-22' }
+    ]));
+  }
+}
+
+const getUsers = () => JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS) || '[]');
+const saveUsers = u => localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(u));
+const getDocs = () => JSON.parse(localStorage.getItem(STORAGE_KEYS.DOCS) || '[]');
+const saveDocs = d => localStorage.setItem(STORAGE_KEYS.DOCS, JSON.stringify(d));
+const getCurrentUser = () => JSON.parse(localStorage.getItem(STORAGE_KEYS.CURRENT) || 'null');
+const setCurrentUser = u => localStorage.setItem(STORAGE_KEYS.CURRENT, JSON.stringify(u));
+
+let currentUser = null, editingDocId = null, currentDetailId = null;
+
+function doLogin() {
+  const username = document.getElementById('login-username').value.trim();
+  const password = document.getElementById('login-password').value;
+  if (!username || !password) { showToast('请输入用户名和密码', 'error'); return; }
+  const user = getUsers().find(u => u.username === username && u.password === password);
+  if (!user) { showToast('用户名或密码错误', 'error'); return; }
+  currentUser = user; setCurrentUser(user); enterApp();
+  showToast('登录成功，欢迎回来！', 'success');
+}
+
+function logout() {
+  currentUser = null; localStorage.removeItem(STORAGE_KEYS.CURRENT);
+  document.getElementById('app-page').style.display = 'none';
+  document.getElementById('login-page').style.display = 'flex';
+  document.getElementById('login-password').value = '';
+}
+
+function enterApp() {
+  document.getElementById('login-page').style.display = 'none';
+  document.getElementById('app-page').style.display = 'block';
+  updateUserUI(); switchPage('docs');
+}
+
+function updateUserUI() {
+  const initial = (currentUser.nickname || currentUser.username).charAt(0).toUpperCase();
+  document.getElementById('sidebar-avatar').textContent = initial;
+  document.getElementById('sidebar-name').textContent = currentUser.nickname || currentUser.username;
+  document.getElementById('sidebar-role').textContent = currentUser.role === 'admin' ? '管理员' : '普通用户';
+  document.querySelectorAll('.admin-only').forEach(el => { el.style.display = currentUser.role === 'admin' ? 'flex' : 'none'; });
+}
+
+const PAGE_TITLES = { docs: '我的文档', editor: '编辑文档', detail: '文档详情', ai: 'AI 助手', profile: '个人设置', users: '用户管理' };
+
+function switchPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + page)?.classList.add('active');
+  document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add('active');
+  document.getElementById('topbar-title').innerHTML = `<span>知集</span><span class="crumb-sep">/</span><span class="crumb-current">${PAGE_TITLES[page] || page}</span>`;
+  if (page === 'docs') renderDocs();
+  if (page === 'profile') loadProfile();
+  if (page === 'users') renderUsers();
+}
+
+let searchKeyword = '';
+function doSearch(kw) { searchKeyword = kw.trim().toLowerCase(); document.getElementById('search-clear').style.display = kw ? 'block' : 'none'; renderDocs(); }
+function clearSearch() { document.getElementById('global-search').value = ''; searchKeyword = ''; document.getElementById('search-clear').style.display = 'none'; renderDocs(); }
+
+function renderDocs() {
+  const docs = getDocs();
+  const isAdmin = currentUser.role === 'admin';
+  let filtered = isAdmin ? docs : docs.filter(d => d.userId === currentUser.id);
+  if (searchKeyword) {
+    filtered = filtered.filter(d => d.title.toLowerCase().includes(searchKeyword) || (d.content || '').toLowerCase().includes(searchKeyword) || (d.tags || []).some(t => t.toLowerCase().includes(searchKeyword)));
+  }
+  filtered.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+  document.getElementById('docs-title').textContent = isAdmin ? '全部文档' : '我的文档';
+  document.getElementById('docs-sub').textContent = searchKeyword ? `找到 ${filtered.length} 篇相关文档` : `共 ${filtered.length} 篇文档 · 记录每一点思考`;
+  const list = document.getElementById('doc-list');
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="empty-state"><div class="icon">${searchKeyword ? '🔍' : '📝'}</div><p>${searchKeyword ? '没有找到匹配的文档，换个关键词试试' : '还没有文档，点击右上角新建第一篇吧'}</p>${!searchKeyword ? '<button class="btn btn-accent" onclick="newDoc()">+ 新建文档</button>' : ''}</div>`;
+    return;
+  }
+  const users = getUsers();
+  list.innerHTML = filtered.map((doc, i) => {
+    const author = users.find(u => u.id === doc.userId);
+    const plainText = (doc.content || '').replace(/<[^>]+>/g, '');
+    const tagsHtml = (doc.tags || []).slice(0, 3).map(t => `<span class="tag">${escHtml(t)}</span>`).join('');
+    const canEdit = isAdmin || doc.userId === currentUser.id;
+    const authorInitial = (author ? (author.nickname || author.username) : '?').charAt(0).toUpperCase();
+    return `<div class="doc-card color-${i % 4}" onclick="viewDoc(${doc.id})">
+      <div class="doc-actions">${canEdit ? `<button class="icon-btn" onclick="event.stopPropagation();editDoc(${doc.id})" title="编辑">✏️</button><button class="icon-btn danger" onclick="event.stopPropagation();deleteDoc(${doc.id})" title="删除">🗑️</button>` : ''}</div>
+      <div class="doc-title">${escHtml(doc.title)}</div>
+      <div class="doc-excerpt">${escHtml(plainText)}</div>
+      <div class="doc-tags">${tagsHtml}</div>
+      <div class="doc-meta"><div class="doc-author"><span class="author-dot">${authorInitial}</span><span>${author ? escHtml(author.nickname || author.username) : '未知'}</span></div><span>${doc.updatedAt}</span></div>
+    </div>`;
+  }).join('');
+}
+
+const escHtml = s => { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
+
+function newDoc() {
+  editingDocId = null;
+  document.getElementById('editor-page-title').textContent = '新建文档';
+  document.getElementById('editor-title').value = '';
+  document.getElementById('editor-tags').value = '';
+  document.getElementById('editor-content').innerHTML = '';
+  switchPage('editor');
+  setTimeout(() => document.getElementById('editor-title').focus(), 100);
+}
+
+function editDoc(id) {
+  const doc = getDocs().find(d => d.id === id);
+  if (!doc) return;
+  if (currentUser.role !== 'admin' && doc.userId !== currentUser.id) { showToast('没有权限编辑此文档', 'error'); return; }
+  editingDocId = id;
+  document.getElementById('editor-page-title').textContent = '编辑文档';
+  document.getElementById('editor-title').value = doc.title;
+  document.getElementById('editor-tags').value = (doc.tags || []).join(', ');
+  document.getElementById('editor-content').innerHTML = doc.content || '';
+  switchPage('editor');
+}
+
+function editCurrentDoc() { if (currentDetailId) editDoc(currentDetailId); }
+
+function saveDoc() {
+  const title = document.getElementById('editor-title').value.trim();
+  const tagsStr = document.getElementById('editor-tags').value.trim();
+  const content = document.getElementById('editor-content').innerHTML;
+  if (!title) { showToast('请输入文档标题', 'error'); document.getElementById('editor-title').focus(); return; }
+  const tags = tagsStr ? tagsStr.split(/[,，]/).map(t => t.trim()).filter(Boolean) : [];
+  const docs = getDocs();
+  const now = new Date().toISOString().split('T')[0];
+  if (editingDocId) {
+    const idx = docs.findIndex(d => d.id === editingDocId);
+    if (idx > -1) { docs[idx].title = title; docs[idx].tags = tags; docs[idx].content = content; docs[idx].updatedAt = now; }
+    showToast('文档已更新', 'success');
+  } else {
+    docs.push({ id: Date.now(), userId: currentUser.id, title, tags, content, createdAt: now, updatedAt: now });
+    showToast('文档已创建', 'success');
+  }
+  saveDocs(docs); switchPage('docs');
+}
+
+function deleteDoc(id) {
+  if (!confirm('确定要删除这篇文档吗？此操作不可恢复。')) return;
+  const docs = getDocs();
+  const doc = docs.find(d => d.id === id);
+  if (!doc) return;
+  if (currentUser.role !== 'admin' && doc.userId !== currentUser.id) { showToast('没有权限删除此文档', 'error'); return; }
+  saveDocs(docs.filter(d => d.id !== id)); showToast('文档已删除', 'success'); renderDocs();
+}
+
+function viewDoc(id) {
+  const doc = getDocs().find(d => d.id === id);
+  if (!doc) return;
+  currentDetailId = id;
+  const author = getUsers().find(u => u.id === doc.userId);
+  const canEdit = currentUser.role === 'admin' || doc.userId === currentUser.id;
+  document.getElementById('detail-edit-btn').style.display = canEdit ? 'inline-block' : 'none';
+  const tagsHtml = (doc.tags || []).map(t => `<span class="tag">${escHtml(t)}</span>`).join('');
+  document.getElementById('doc-detail-content').innerHTML = `<h1>${escHtml(doc.title)}</h1><div class="detail-meta"><span>✍️ ${escHtml(author ? (author.nickname || author.username) : '未知')}</span><span>·</span><span>创建于 ${doc.createdAt}</span><span>·</span><span>更新于 ${doc.updatedAt}</span>${tagsHtml ? '<span>·</span>' + tagsHtml : ''}</div><div class="detail-body">${doc.content || '<p style="color:var(--ink-light);">（暂无内容）</p>'}</div>`;
+  switchPage('detail');
+}
+
+function execCmd(cmd, value = null) { document.execCommand(cmd, false, value); document.getElementById('editor-content').focus(); }
+function insertCodeBlock() {
+  const code = prompt('输入代码内容：');
+  if (code !== null) document.execCommand('insertHTML', false, `<pre><code>${escHtml(code)}</code></pre><p><br></p>`);
+}
+
+function sendAiMessage() {
+  const input = document.getElementById('ai-input');
+  const text = input.value.trim();
+  if (!text) return;
+  appendMessage('user', text); input.value = '';
+  const sendBtn = document.getElementById('ai-send-btn'); sendBtn.disabled = true;
+  const typingId = appendTyping();
+  setTimeout(() => { removeTyping(typingId); appendMessage('ai', generateAiReply(text)); sendBtn.disabled = false; }, 800 + Math.random() * 800);
+}
+
+function appendMessage(role, html) {
+  const container = document.getElementById('ai-messages');
+  const div = document.createElement('div'); div.className = 'msg ' + role;
+  const avatarText = role === 'user' ? (currentUser.nickname || currentUser.username).charAt(0).toUpperCase() : '✨';
+  div.innerHTML = `<div class="msg-avatar">${avatarText}</div><div class="msg-bubble">${html}</div>`;
+  container.appendChild(div); container.scrollTop = container.scrollHeight;
+}
+
+function appendTyping() {
+  const container = document.getElementById('ai-messages');
+  const id = 'typing-' + Date.now();
+  const div = document.createElement('div'); div.className = 'msg ai'; div.id = id;
+  div.innerHTML = `<div class="msg-avatar">✨</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  container.appendChild(div); container.scrollTop = container.scrollHeight; return id;
+}
+function removeTyping(id) { document.getElementById(id)?.remove(); }
+
+function generateAiReply(input) {
+  const lower = input.toLowerCase();
+  const docs = getDocs();
+  const matched = docs.filter(d => d.title.toLowerCase().includes(lower) || (d.content || '').toLowerCase().includes(lower));
+  if (matched.length > 0 && !lower.includes('总结') && !lower.includes('帮我写')) {
+    const doc = matched[0];
+    const plainText = (doc.content || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').substring(0, 180);
+    return `📚 在你的知识库中找到了相关内容：<br><br><b>《${escHtml(doc.title)}》</b><br>${escHtml(plainText)}...<br><br>需要我帮你总结或展开这篇文档吗？`;
+  }
+  if (lower.includes('闭包')) return `<b>闭包（Closure）</b>是 JavaScript 的核心概念：<br><br>1️⃣ <b>定义</b>：函数与其词法环境的组合，内部函数可访问外部函数的变量。<br>2️⃣ <b>常见用途</b>：数据私有化、函数柯里化、回调与事件处理。<br>3️⃣ <b>注意</b>：闭包保留变量引用，不当使用可能导致内存泄漏。<br><br>你的知识库中有《JavaScript 闭包详解》，可以查看更多细节 👀`;
+  if (lower.includes('react') || lower.includes('hook')) return `<b>React Hooks</b> 核心要点：<br><br>• <b>useState</b> — 函数组件状态管理<br>• <b>useEffect</b> — 副作用处理（请求/订阅/DOM）<br>• <b>useContext</b> — 跨层级数据共享<br>• <b>useMemo / useCallback</b> — 性能优化<br><br>📌 规则：只能在组件顶层调用，不可在条件/循环中使用。`;
+  if (lower.includes('flex') || lower.includes('布局')) return `<b>Flexbox 布局</b>速查：<br><br><b>容器属性：</b><br>• flex-direction — 主轴方向<br>• justify-content — 主轴对齐<br>• align-items — 交叉轴对齐<br>• flex-wrap — 是否换行<br><br><b>子项属性：</b><br>• flex-grow / flex-shrink / flex-basis<br>• align-self — 单独对齐<br><br>知识库中有《CSS Flexbox 布局速查》可以参考。`;
+  if (lower.includes('写') || lower.includes('生成') || lower.includes('帮我')) return `好的，我可以帮你生成内容！请告诉我：<br><br>📝 主题是什么？<br>🎯 需要什么风格（技术笔记/教程/总结）？<br>📏 大概篇幅？<br><br>比如："帮我写一篇关于 CSS Grid 的技术笔记"`;
+  if (lower.includes('总结') || lower.includes('概览') || lower.includes('知识库')) {
+    const allDocs = getDocs().filter(d => currentUser.role === 'admin' || d.userId === currentUser.id);
+    if (allDocs.length === 0) return '你的知识库还没有文档，先创建几篇再来总结吧 📝';
+    const allTags = [...new Set(allDocs.flatMap(d => d.tags || []))];
+    return `📊 你的知识库概览：<br><br>共 <b>${allDocs.length}</b> 篇文档，覆盖 <b>${allTags.length}</b> 个标签<br><br><b>最近文档：</b><br>${allDocs.slice(0, 5).map((d, i) => `${i + 1}. ${escHtml(d.title)}`).join('<br>')}<br><br><b>热门标签：</b><br>${allTags.slice(0, 8).map(t => `<span class="tag" style="margin:2px;">${escHtml(t)}</span>`).join('')}<br><br>需要我深入总结某一篇吗？`;
+  }
+  if (lower.includes('你好') || lower.includes('hi') || lower.includes('hello')) return `你好呀！${currentUser.nickname || currentUser.username} 👋<br>有什么我可以帮你的吗？你可以问我技术问题，或者让我帮你管理知识库内容 ✨`;
+  return `我收到了你的问题："${escHtml(input)}"<br><br>这是演示版 AI 助手，目前支持：<br>✅ 回答常见技术问题<br>✅ 检索你的知识库内容<br>✅ 生成和总结文档<br><br>试试问我"什么是闭包"、"总结 React Hooks"，或者"帮我写一篇笔记"吧 💡`;
+}
+
+function loadProfile() {
+  document.getElementById('profile-username').value = currentUser.username;
+  document.getElementById('profile-nickname').value = currentUser.nickname || '';
+  document.getElementById('profile-email').value = currentUser.email || '';
+  document.getElementById('profile-bio').value = currentUser.bio || '';
+  document.getElementById('profile-password').value = '';
+  document.getElementById('profile-password2').value = '';
+  const initial = (currentUser.nickname || currentUser.username).charAt(0).toUpperCase();
+  document.getElementById('profile-avatar').textContent = initial;
+  document.getElementById('profile-name-display').textContent = currentUser.nickname || currentUser.username;
+  const roleEl = document.getElementById('profile-role-display');
+  roleEl.textContent = currentUser.role === 'admin' ? '管理员' : '普通用户';
+  roleEl.className = 'role-badge ' + (currentUser.role === 'admin' ? 'role-admin' : 'role-user');
+}
+
+function saveProfile() {
+  const nickname = document.getElementById('profile-nickname').value.trim();
+  const email = document.getElementById('profile-email').value.trim();
+  const bio = document.getElementById('profile-bio').value.trim();
+  const pwd = document.getElementById('profile-password').value;
+  const pwd2 = document.getElementById('profile-password2').value;
+  if (pwd && pwd.length < 6) { showToast('密码至少6位', 'error'); return; }
+  if (pwd && pwd !== pwd2) { showToast('两次密码不一致', 'error'); return; }
+  const users = getUsers();
+  const idx = users.findIndex(u => u.id === currentUser.id);
+  if (idx > -1) {
+    users[idx].nickname = nickname; users[idx].email = email; users[idx].bio = bio;
+    if (pwd) users[idx].password = pwd;
+    saveUsers(users); currentUser = users[idx]; setCurrentUser(currentUser);
+    updateUserUI(); loadProfile(); showToast('个人信息已保存', 'success');
+  }
+}
+
+function renderUsers() {
+  if (currentUser.role !== 'admin') { showToast('只有管理员可以访问用户管理', 'error'); switchPage('docs'); return; }
+  const users = getUsers(); const docs = getDocs();
+  document.getElementById('user-table-body').innerHTML = users.map((u, i) => {
+    const docCount = docs.filter(d => d.userId === u.id).length;
+    const isSelf = u.id === currentUser.id;
+    const initial = (u.nickname || u.username).charAt(0).toUpperCase();
+    return `<tr><td><div class="user-cell"><div class="u-avatar c${i % 4}">${initial}</div><div><div style="font-weight:600;">${escHtml(u.username)}</div><div style="font-size:12px;color:var(--ink-soft);">${escHtml(u.nickname || '-')}</div></div></div></td><td>${escHtml(u.email || '-')}</td><td><span class="role-badge ${u.role === 'admin' ? 'role-admin' : 'role-user'}">${u.role === 'admin' ? '管理员' : '普通用户'}</span></td><td>${docCount} 篇</td><td style="color:var(--ink-soft);font-size:13px;">${u.createdAt}</td><td>${isSelf ? '<span style="color:var(--ink-light);font-size:12px;">当前用户</span>' : `<button class="icon-btn" onclick="toggleUserRole(${u.id})" title="切换角色">🔄</button><button class="icon-btn danger" onclick="deleteUser(${u.id})" title="删除">🗑️</button>`}</td></tr>`;
+  }).join('');
+}
+
+function toggleUserRole(id) {
+  const users = getUsers();
+  const idx = users.findIndex(u => u.id === id);
+  if (idx > -1) { users[idx].role = users[idx].role === 'admin' ? 'user' : 'admin'; saveUsers(users); renderUsers(); showToast('角色已更新', 'success'); }
+}
+
+function deleteUser(id) {
+  if (!confirm('确定删除该用户？该用户的所有文档也会被删除。')) return;
+  saveUsers(getUsers().filter(u => u.id !== id));
+  saveDocs(getDocs().filter(d => d.userId !== id));
+  renderUsers(); showToast('用户已删除', 'success');
+}
+
+function showAddUserModal() { document.getElementById('add-user-modal').classList.add('show'); }
+function hideAddUserModal() {
+  document.getElementById('add-user-modal').classList.remove('show');
+  document.getElementById('new-user-username').value = '';
+  document.getElementById('new-user-nickname').value = '';
+  document.getElementById('new-user-password').value = '';
+}
+
+function addUser() {
+  const username = document.getElementById('new-user-username').value.trim();
+  const nickname = document.getElementById('new-user-nickname').value.trim();
+  const password = document.getElementById('new-user-password').value;
+  const role = document.getElementById('new-user-role').value;
+  if (!username || !password) { showToast('用户名和密码必填', 'error'); return; }
+  if (password.length < 6) { showToast('密码至少6位', 'error'); return; }
+  const users = getUsers();
+  if (users.some(u => u.username === username)) { showToast('用户名已存在', 'error'); return; }
+  users.push({ id: Date.now(), username, password, nickname: nickname || username, email: '', role, bio: '', createdAt: new Date().toISOString().split('T')[0] });
+  saveUsers(users); hideAddUserModal(); renderUsers(); showToast('用户添加成功', 'success');
+}
+
+function showToast(msg, type = 'info') {
+  const toast = document.createElement('div');
+  toast.className = 'toast ' + type;
+  const icons = { success: '✅', error: '❌', info: '💡' };
+  toast.innerHTML = `<span>${icons[type] || '💡'}</span><span>${msg}</span>`;
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.style.transition = 'all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)'; toast.style.opacity = '0'; toast.style.transform = 'translateX(120%) scale(0.9)'; setTimeout(() => toast.remove(), 350); }, 2200);
+}
+
+initData();
+const saved = getCurrentUser();
+if (saved) { currentUser = saved; enterApp(); }
+document.getElementById('login-password').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+document.getElementById('login-username').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+</script>
+</body>
+</html>
